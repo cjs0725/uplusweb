@@ -4,6 +4,28 @@
 <meta charset="UTF-8">
 <title>포동+단골고객 가입 URL 만들기</title>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<style>
+    h2 {
+        font-size: 50px; /* Sets the font size of the title to 24px */
+        margin-bottom: 50px; /* Adds 50px space below the title */
+    }
+
+    .description {
+        margin-bottom: 50px; /* Adds 50px space below the description */
+    }
+
+    #utmCampaign, #copyButton {
+        margin-bottom: 50px; /* Adds 50px space below the input box and the copy button */
+        font-size: 16px; /* Increases the font size of the input text and the copy button */
+        padding: 10px 20px; /* Increases the padding inside the input box and the copy button */
+        width: calc(100% - 42px); /* Adjusts the width, accounting for padding and borders */
+    }
+
+    button {
+        padding: 10px 20px; /* Increases the padding inside the button */
+        font-size: 16px; /* Increases the font size of the button text */
+    }
+</style>
 <script>
 function appendUTMCampaign() {
     // 기존 URL을 정의합니다.
@@ -16,7 +38,7 @@ function appendUTMCampaign() {
     var fullUrl = baseUrl + '?utm_campaign=' + encodeURIComponent(utmCampaign);
 
     // 결과를 화면에 표시합니다 (텍스트).
-    document.getElementById('result').innerHTML = fullUrl;
+    document.getElementById('result').innerText = fullUrl;
 
     // 결과를 QR 코드로 생성하고 표시합니다.
     generateQRCode(fullUrl);
@@ -36,24 +58,34 @@ function generateQRCode(url) {
         correctLevel : QRCode.CorrectLevel.H
     });
 }
+
+function copyToClipboard() {
+    // 결과값을 복사합니다.
+    var copyText = document.getElementById("result").innerText;
+    navigator.clipboard.writeText(copyText);
+
+    // 사용자에게 알림을 표시합니다.
+    alert("복사되었습니다: " + copyText);
+}
 </script>
 </head>
 <body>
 
 <!-- 이미지 삽입 -->
-<img src="podong.png" alt="포동" style="width:200; height:auto; display:inline-block; margin:auto;">
+<img src="podong.png" alt="포동" style="width:200px; height:auto; display:inline-block; margin:auto;">
 
 <h2>포동+단골고객 가입 URL 만들기</h2>
 
-<!-- 설명글 추가 -->
-<p>아래에 우리 매장의 P코드를 입력하고 'URL 만들기' 버튼을 클릭하세요. </p>
-<p>만들어진 ULR주소를 복사하여 사용하거나</p> 
-<p>QR코드를 저장 및 출력해서 사용해주세요</p>
-<p>(마우스 우클릭 후 '다른 이름으로 사진 저장')</p>
-<p>※P코드는 대문자로 입력해주세요. (예시)P123456</p>
-<p> </p>
+<!-- 설명글 추가, 클래스를 추가하여 간격 조정 -->
+<div class="description">
+    <p>아래에 우리 매장의 P코드를 입력하고 'URL 만들기' 버튼을 클릭하세요. </p>
+    <p>만들어진 URL 주소를 복사하여 사용하거나</p> 
+    <p>QR코드를 저장 및 출력해서 사용해주세요.</p>
+    <p>(마우스 우클릭 후 '다른 이름으로 사진 저장')</p>
+    <p>※P코드는 대문자로 입력해주세요. (예시) P123456</p>
+</div>
 
-<!-- UTM 파라미터 입력 필드 (utm_campaign) -->
+<!-- UTM 파라미터 입력 필드 (utm_campaign), 간격 조정을 위해 ID에 스타일을 추가 -->
 <input type="text" id="utmCampaign" placeholder="우리매장 P코드 입력">
 
 <!-- 버튼을 클릭하면 appendUTMCampaign 함수가 실행됩니다 -->
@@ -61,6 +93,9 @@ function generateQRCode(url) {
 
 <!-- 결과를 텍스트로 표시할 공간 -->
 <p>완성된 URL: <span id="result"></span></p>
+
+<!-- 복사하기 버튼을 추가합니다 -->
+<button id="copyButton" onclick="copyToClipboard()">복사하기</button>
 
 <!-- QR 코드를 표시할 공간 -->
 <div id="qrcode"></div>
