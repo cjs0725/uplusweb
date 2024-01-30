@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>포동+단골고객 가입 URL 만들기</title>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script>
+function appendUTMCampaign() {
+    // 기존 URL을 정의합니다.
+    var baseUrl = "http://example.com/";
+
+    // 사용자 입력 값을 가져옵니다 (utm_campaign).
+    var utmCampaign = document.getElementById('utmCampaign').value;
+
+    // URL에 UTM 파라미터(utm_campaign)를 추가합니다.
+    var fullUrl = baseUrl + '?utm_campaign=' + encodeURIComponent(utmCampaign);
+
+    // 결과를 화면에 표시합니다 (텍스트).
+    document.getElementById('result').innerHTML = fullUrl;
+
+    // 결과를 QR 코드로 생성하고 표시합니다.
+    generateQRCode(fullUrl);
+}
+
+function generateQRCode(url) {
+    // QR 코드를 위한 div를 비웁니다.
+    document.getElementById('qrcode').innerHTML = "";
+
+    // QR 코드를 생성합니다.
+    var qr = new QRCode(document.getElementById("qrcode"), {
+        text: url,
+        width: 128,
+        height: 128,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+}
+</script>
+</head>
+<body>
+
+<!-- 이미지 삽입 -->
+<img src="C:\Users\User\Desktop\포동예시\포동.png" alt="포동" style="width:100px; height:auto; display:inline-block; margin:auto;">
+
+<h2>포동+단골고객 가입 URL 만들기</h2>
+
+<!-- 설명글 추가 -->
+<p>아래에 우리 매장의 P코드를 입력하고 'URL 만들기' 버튼을 클릭하세요. </p>
+<p>만들어진 ULR주소를 복사하여 사용하거나, QR코드를 출력해서 사용해주세요</p>
+<p>※P코드는 대문자로 입력해주세요. (예시)P123456</p>
+<p> </p>
+
+<!-- UTM 파라미터 입력 필드 (utm_campaign) -->
+<input type="text" id="utmCampaign" placeholder="우리매장 P코드 입력">
+
+<!-- 버튼을 클릭하면 appendUTMCampaign 함수가 실행됩니다 -->
+<button onclick="appendUTMCampaign()">URL 만들기</button>
+
+<!-- 결과를 텍스트로 표시할 공간 -->
+<p>완성된 URL: <span id="result"></span></p>
+
+<!-- QR 코드를 표시할 공간 -->
+<div id="qrcode"></div>
+
+</body>
+</html>
